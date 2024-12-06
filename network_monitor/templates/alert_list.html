@@ -1,0 +1,45 @@
+<!-- alert_list.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="bg-white p-4 rounded shadow">
+    <h2 class="text-xl font-bold mb-4">Alert List</h2>
+    
+    <form class="mb-4">
+        <select name="priority" class="p-2 border rounded">
+            <option value="">All Priorities</option>
+            <option value="1">High</option>
+            <option value="2">Medium</option>
+            <option value="3">Low</option>
+        </select>
+        <input type="text" name="source_ip" placeholder="Source IP" class="p-2 border rounded">
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Filter</button>
+    </form>
+
+    <table class="w-full">
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Priority</th>
+                <th>Source IP</th>
+                <th>Destination IP</th>
+                <th>Message</th>
+                <th>Classification</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for alert in alerts %}
+            <tr>
+                <td>{{ alert.timestamp }}</td>
+                <td>{{ alert.priority }}</td>
+                <td>{{ alert.source_ip }}</td>
+                <td>{{ alert.destination_ip }}</td>
+                <td>{{ alert.message }}</td>
+                <td>{{ alert.classification }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    {% include "pagination.html" %}
+</div>
+{% endblock %}

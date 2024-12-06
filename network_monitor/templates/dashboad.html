@@ -1,0 +1,52 @@
+<!-- dashboard.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="grid grid-cols-2 gap-4">
+    <div class="bg-white p-4 rounded shadow">
+        <h2 class="text-xl font-bold mb-4">Bridge Status</h2>
+        <div id="bridge-status">
+            <p>Status: {{ bridge_status.active|yesno:"Active,Inactive" }}</p>
+            <p>Interfaces: {{ bridge_status.interfaces|join:", " }}</p>
+            <button onclick="toggleBridge()" class="bg-blue-500 text-white px-4 py-2 rounded">
+                Toggle Bridge
+            </button>
+        </div>
+    </div>
+    
+    <div class="bg-white p-4 rounded shadow">
+        <h2 class="text-xl font-bold mb-4">Snort Statistics</h2>
+        <div id="snort-stats">
+            <p>Total Alerts: {{ snort_stats.total_alerts }}</p>
+            <p>High Priority: {{ snort_stats.high_priority }}</p>
+            <p>Medium Priority: {{ snort_stats.medium_priority }}</p>
+            <p>Low Priority: {{ snort_stats.low_priority }}</p>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4 bg-white p-4 rounded shadow">
+    <h2 class="text-xl font-bold mb-4">Recent Alerts</h2>
+    <table class="w-full">
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Priority</th>
+                <th>Source IP</th>
+                <th>Destination IP</th>
+                <th>Message</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for alert in recent_alerts %}
+            <tr>
+                <td>{{ alert.timestamp }}</td>
+                <td>{{ alert.priority }}</td>
+                <td>{{ alert.source_ip }}</td>
+                <td>{{ alert.destination_ip }}</td>
+                <td>{{ alert.message }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

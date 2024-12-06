@@ -1,0 +1,43 @@
+<!-- rule_management.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="bg-white p-4 rounded shadow">
+    <h2 class="text-xl font-bold mb-4">Rule Management</h2>
+    
+    <form method="post" class="mb-4">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="add">
+        <textarea name="rule_content" class="w-full p-2 border rounded" rows="3"
+                  placeholder="Enter Snort rule..."></textarea>
+        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Add Rule</button>
+    </form>
+
+    <table class="w-full">
+        <thead>
+            <tr>
+                <th>Rule Content</th>
+                <th>Category</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rule in rules %}
+            <tr>
+                <td>{{ rule.rule_content }}</td>
+                <td>{{ rule.category }}</td>
+                <td>{{ rule.created_at }}</td>
+                <td>
+                    <form method="post" class="inline">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="delete">
+                        <input type="hidden" name="rule_id" value="{{ rule.id }}">
+                        <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
